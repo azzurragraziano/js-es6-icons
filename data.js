@@ -6,7 +6,7 @@ Ciascuna icona ha una proprietà "color": utilizzare questa proprietà per visua
 
 Milestone 3
 Aggiungere alla pagina una select in cui le options corrispondono ai vari tipi di icone (animal, vegetable, user). Quando l'utente seleziona un tipo dalla select, visualizzare solamente le icone corrispondenti. */
-[
+const allIcons = [
 	{
 		name: 'cat',
 		prefix: 'fa-',
@@ -121,3 +121,41 @@ Aggiungere alla pagina una select in cui le options corrispondono ai vari tipi d
 	}
 ];
 
+const iconsContainer = document.querySelector('.icons-container');
+
+printCards(allIcons, iconsContainer);
+
+const selectCategory = document.getElementById('category');
+
+selectCategory.addEventListener('change', function() {
+
+	const currentValue = this.value;
+
+	iconsContainer.innerHTML = '';
+
+	if(currentValue !== 'all') {
+		const filteredArray = allIcons.filter((element) => {
+			return element.type === currentValue;
+		})	
+
+		printCards(filteredArray, iconsContainer)
+	} else {
+		printCards(allIcons, iconsContainer)
+	}
+})
+
+// FUNCTION
+function printCards (array, container) {
+	array.forEach((element) => {
+		const {name, prefix, type, family, color} = element;
+	
+		const newCard = 
+		`<div class="card">
+			<i class="${family} ${prefix}${name}" style="color: ${color};"></i>
+			<span>${name}</span>
+		</div>`;
+	
+		container.innerHTML += newCard;
+	
+	});
+}
